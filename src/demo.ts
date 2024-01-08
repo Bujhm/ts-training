@@ -1,15 +1,19 @@
-let s; //Todo: here is the warning, because we do not = it to any of types 's' or 4, etc.
-let t: number;
-let u: string;
-let v: boolean;
-let w: Date;
-let x: string[];
-let y: { name: string, age: number };
-let z: any;
+interface Contact extends Address{
+    id: number;
+    name: string;
+    birthday?: Date; // is is optional because of "?"
+}
 
-x = "hello" as any
-b = 1234
+// it warns because it needs we add missing properties from Address interface
+let primaryContact: Contact = {
+    id: 1,
+    name: "John"
+}
 
-z = 5
-z = "hello"
-z = [0, 1, 2, 3]
+interface Address {
+    line1: string;
+    line2: string;
+    postalCode: string;
+    province: string;
+    region: string;
+}
