@@ -5,15 +5,16 @@ interface Contact {
 
 type contactName = string;
 
-//Key note: which the type IN, the same type is OUT
-function clone<T>(source: T): T {
+//Key note: one type IN, another type is OUT
+function clone<T1, T2>(source: T1): T2 {
     return Object.apply({}, source);
 }
 
 const a: Contact = { id: 123, name: "Homer Simpson" };
-const b = clone(a);
-console.log(b);  //return: {}
+const b = clone<Contact, Contact>(a); //Key note: strict Typing is here
+console.log(b); 
+console.log(b.name);  //now it's possible, but still return ->undefined
 
 const dateRange = { startDate: Date.now(), endDate: Date.now() }
 const dateRangeCopy = clone(dateRange)
-console.log(dateRangeCopy); //return: {}
+
