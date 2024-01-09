@@ -1,17 +1,22 @@
 interface Contact {
     id: number;
-    name: contactName;
+    name: string;
 }
 
-type contactName = string;
+interface UserContact {
+    id: number;
+    name: string;
+    userName: string;
+}
 
-//Key note: one type IN, another type is OUT
-function clone<T1, T2>(source: T1): T2 {
+
+//Key note: one type IN, another type is OUT, but match the same type as T1
+function clone<T1, T2 extends T1>(source: T1): T2 {
     return Object.apply({}, source);
 }
 
 const a: Contact = { id: 123, name: "Homer Simpson" };
-const b = clone<Contact, Contact>(a); //Key note: strict Typing is here
+const b = clone<Contact, UserContact>(a); //Key note: we matching the same properties like id, name in both interfaces
 console.log(b); 
 console.log(b.name);  //now it's possible, but still return ->undefined
 
