@@ -1,27 +1,19 @@
 interface Contact {
     id: number;
     name: contactName;
-    birthday?: Date; // is is optional because of "?"
-    clone(name:string): Contact;
 }
 
 type contactName = string;
 
-//here we typed function (argument typed as Contact ans Return typed as Contact as well)
-function clone(source: Contact): Contact {
+//Key note: which the type IN, the same type is OUT
+function clone<T>(source: T): T {
     return Object.apply({}, source);
 }
 
-const a: Contact = { id: 123, name: "Homer Simpson", clone(name:string): Contact {
-     return { 
-        id: this.id, 
-        name: name, 
-        clone: (name) => this   //arrow function can access ->this keyword
-        } 
-    } };
+const a: Contact = { id: 123, name: "Homer Simpson" };
 const b = clone(a);
-console.log(b);
+console.log(b);  //return: {}
 
-const c = a.clone("Bart Simpson");
-console.log(`this is c`, c);
-console.log(a);
+const dateRange = { startDate: Date.now(), endDate: Date.now() }
+const dateRangeCopy = clone(dateRange)
+console.log(dateRangeCopy); //return: {}
