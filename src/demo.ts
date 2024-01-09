@@ -3,10 +3,11 @@ interface Contact {
     name: string;
 }
 
-interface UserContact {
+interface UserContact<TExternalId> {
     id: number;
     name: string;
     userName: string;
+    loadExternalId(): Task<TExternalId>
 }
 
 
