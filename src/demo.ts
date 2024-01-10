@@ -1,26 +1,52 @@
-interface Contact {
+type contactName = string;
+
+//key note 1: or we can use union type
+type contactBirthDate = Date | number | string
+
+enum ContactStatus {
+    Active = "active",
+    Inactive = "inactive",
+    New = "new"
+}
+//key note 2: or we can use union type, shorter and better than "enum" type
+type ContactStatus2 = "active" | "inactive" | "new"
+
+interface Contact extends Address {  //key note 3: Here we adding Contact to Address
     id: number;
-    name: string;
+    name: contactName;
+    birthDate?: contactBirthDate;
+    //status: ContactStatus; //key note 4, this is also possible and workable with the "enum" type
+    status: ContactStatus2;
 }
 
-interface UserContact<TExternalId> {
-    id: number;
-    name: string;
-    userName: string;
-    loadExternalId(): Task<TExternalId>
+interface Address {
+    line1?: string;
+    line2?: string;
+    province?: string;
+    region: string;
+    postalCode?: string;
 }
 
+//key note 5: Here we adding Contact to Address
+interface AddressContact extends Contact, Address {} 
+//key note 6: or we can use intersection type
+type AddressContact2 = Contact & Address
 
-//Key note: one type IN, another type is OUT, but match the same type as T1
-function clone<T1, T2 extends T1>(source: T1): T2 {
-    return Object.apply({}, source);
+function getBirthDate(contact: Contact) {
+    if (typeof contact.birthDate === "number") {
+        return new Date(contact.birthDate);
+    }
+    else if (typeof contact.birthDate === "string") {
+        return Date.parse(contact.birthDate)
+    }
+    else {
+        return contact.birthDate
+    }
 }
 
-const a: Contact = { id: 123, name: "Homer Simpson" };
-const b = clone<Contact, UserContact>(a); //Key note: we matching the same properties like id, name in both interfaces
-console.log(b); 
-console.log(b.name);  //now it's possible, but still return ->undefined
-
-const dateRange = { startDate: Date.now(), endDate: Date.now() }
-const dateRangeCopy = clone(dateRange)
-
+let primaryContact: Contact = {
+    id: 1,
+    name: "John Doe",
+    region: "New York",
+    status:"active" //key note 7: Here we can use ContactStatus2 directly, auto suggestion will work
+}
