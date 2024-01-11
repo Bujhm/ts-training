@@ -1,48 +1,36 @@
+type ContactStatus = "active" | "inactive" | "new";
 
+interface Address {
+    street: string;
+    province: string;
+    postalCode: string;
+}
 
-type contactName = string;
-type ContactStatus = "active" | "inactive" | "new"
-type contactBirthDate = Date | number | string
-
-interface Contact { 
+interface Contact {
     id: number;
-    name: contactName;
-    birthDate?: contactBirthDate;
-    status?: ContactStatus;
+    name: string;
+    status: ContactStatus;
+    address: Address;
 }
 
-let primaryContact: Contact = {
-    id: 1,
-    name: "John Doe",
-    status: "active"
+interface ContactEvent {
+    contactId: number;
 }
 
-// here we use the type assertion operator with pipeline operator, see the autosuggestion when using this function below, toContact(...
-function toContact(nameOrContact: string | Contact): Contact {
-    if (typeof nameOrContact === "object") {
-        return {
-            id: nameOrContact.id,
-            name: nameOrContact.name,
-            status: nameOrContact.status
-        }
-    }
-    else {
-        return {
-            id: 0,
-            name: nameOrContact,
-            status: "active"
-        }
-    }
+interface ContactDeletedEvent extends ContactEvent { 
 }
 
-console.log(toContact(primaryContact));
-console.log(toContact("Some name"));
+interface ContactStatusChangedEvent extends ContactEvent { 
+    oldStatus: ContactStatus;
+    newStatus: ContactStatus;
+}
 
-const myType = {min: 1, max: 20}
+interface ContactEvents {
+    deleted: ContactDeletedEvent;
+    statusChanged: ContactStatusChangedEvent;
+    // ... and so on
+}
 
-// here we use typeof operator to get the type of the object
-function saveRange(source: typeof myType) {}
-
-saveRange(primaryContact) // here will be an error
-saveRange(myType) 
-saveRange({min:-50, max:50}) 
+function getValue<T, U extends keyof T>(source: T, propertyName: U) {
+    return source[propertyName];
+}
