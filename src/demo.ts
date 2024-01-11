@@ -21,6 +21,15 @@ type ContactFields = keyof Contact;
 // keyof will made constraint for ContactFileds and this will be suggesting you "id, birthDate, name, status, email" as possible values
 const field: ContactFields = "email" 
 
-function getValue(source, propertyName) {
+// this is wrong version of getValue function
+// function getValue(source, propertyName) {
+//     return source[propertyName]
+// }
+
+// this is right version of getValue function
+function getValue(source, propertyName: keyof Contact) {
     return source[propertyName]
 }
+
+const value = getValue(primaryContact, "status"); //here willbe undefided without static typing 
+console.log(value);
