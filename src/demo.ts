@@ -14,15 +14,15 @@ interface Contact {
 }
 
 interface ContactEvent {
-    contactId: number;
+    contactId: Contact["id"]; // here is indexed typing
 }
 
 interface ContactDeletedEvent extends ContactEvent { 
 }
 
 interface ContactStatusChangedEvent extends ContactEvent { 
-    oldStatus: ContactStatus;
-    newStatus: ContactStatus;
+    oldStatus: Contact["status"]; // here
+    newStatus: Contact["status"]; // and here
 }
 
 interface ContactEvents {
@@ -34,3 +34,20 @@ interface ContactEvents {
 function getValue<T, U extends keyof T>(source: T, propertyName: U) {
     return source[propertyName];
 }
+
+function handleEvent<T extends keyof ContactEvents>(
+    eventName: T,
+    handler: (evt: ContactEvents[T]) => void | object
+) {
+    if (eventName === "statusChanged") {
+        handler({ contactId: 1, oldStatus: "active", newStatus: "inactive" })
+    }
+    // if (eventName === "deleted") {
+    //    handler({contactId: 1 } as ContactDeletedEvent) // here willbe an error, because it should implement 2 interfaces
+    //}
+    // if (eventName === "deleted") {
+    //     handler({ contactId: 1, oldStatus: "active", newStatus: "inactive"})  // here everything will be OK
+    // }
+}
+
+handleEvent("statusChanged", evt => evt)
