@@ -26,10 +26,21 @@ const field: ContactFields = "email"
 //     return source[propertyName]
 // }
 
-// this is right version of getValue function
-function getValue(source, propertyName: keyof Contact) {
+// this is right version of getValue function but with Generics typing
+function getValue<T>(source: T, propertyName: keyof T) {
     return source[propertyName]
 }
 
-const value = getValue(primaryContact, "status"); //here willbe undefided without static typing 
+// this is the copy of previous function, but more generic using 2 generics
+function getValue2<T, U extends keyof T>(source: T, propertyName: U) {
+    return source[propertyName]
+}
+
+const value = getValue(primaryContact, "status"); // now this works correctly
 console.log(value);
+
+const value2 = getValue({min:1, max:200}, "max"); // after using Generic typing this will work also! 
+console.log(value2);
+
+const value3 = getValue2(primaryContact, "name"); // example of getValue2() function with 2 generics
+console.log(value3);
