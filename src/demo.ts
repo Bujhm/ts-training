@@ -40,7 +40,7 @@ function freeze(constructor: Function) {
     Object.freeze(constructor.prototype);
 }
 
-function singleton(constructor: any) {
+function singleton<T extends {new(...args: any[]): {} }>(constructor: T) {
     return class Singleton extends constructor{
         static _instance = null;
 
@@ -57,6 +57,7 @@ function singleton(constructor: any) {
 }
 
 @freeze
+@singleton
 class ContactRepository {
     private contacts: Contact[] = [];
 
