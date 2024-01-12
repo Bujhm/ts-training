@@ -32,8 +32,10 @@ interface Query {
     matches(val): boolean;
 }
 
+type ContactQuery = Record<keyof Contact, Query>
+
 // this is a function that takes an array of contacts and a query object and returns a filtered array of contacts
-function searchContacts(contacts: Contact[], query: Record<keyof Contact, Query>) {
+function searchContacts(contacts: Contact[], query: ContactQuery ) {
     return contacts.filter(contact => {
         for (const property of Object.keys(contact) as (keyof Contact)[]) { // here is the magic, strict type checking
             // get the query object for this property
