@@ -25,6 +25,7 @@ interface Contact {
     name: string;
     status: ContactStatus;
     address: Address;
+    email: string;
 }
 
 interface Query {
@@ -32,7 +33,26 @@ interface Query {
     matches(val): boolean;
 }
 
-type ContactQuery = Record<keyof Contact, Query>
+// using helpers like "Partial" and "Omit" and "Pick"
+type ContactQuery_before = Partial<Record<keyof Contact, Query>>
+
+type ContactQuery_in_the_middle = 
+    Omit< // key note 1: this is a way to remove properties from an interface
+        Partial< // key note 2: this is a way to make all properties optional
+            Record<keyof Contact, Query>
+            >, 
+        "address" | "status"
+    >
+
+    type ContactQuery = 
+    Partial< // key note 3: this is a way to make all properties optional
+        Pick< // key note 4: this is a way to make all properties required
+            Record<keyof Contact, Query>,
+            "id" | "name"
+        > 
+    >
+
+    type RequiredContactQuery = Required<ContactQuery>; // key note 5: this is a way to make all properties required
 
 // this is a function that takes an array of contacts and a query object and returns a filtered array of contacts
 function searchContacts(contacts: Contact[], query: ContactQuery ) {
