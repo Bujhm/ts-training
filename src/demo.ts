@@ -10,6 +10,13 @@ const currentUser = {
     }
 }
 
+function authorize(target: any, property: string, descriptor: PropertyDescriptor) {
+    //descriptor.value = function () {} // first approach
+    return {
+    // ... make any changes to the descriptor here
+    } as PropertyDescriptor; // second approach
+}
+
 @log
 class ContactRepository {
     private contacts: Contact[] = [];
