@@ -13,18 +13,24 @@ const currentUser = {
     }
 }
 
-function authorize(target: any, property: string, descriptor: PropertyDescriptor) {
-    const wrapped = descriptor.value; // its important, because it will be called with the original function
+function authorize(role: string) {
+    return function authorizeDecorator(target: any, property: string, descriptor: PropertyDescriptor) {
+        const wrapped = descriptor.value; // its important, because it will be called with the original function
 
-    descriptor.value = function () {
-        if (!currentUser.isAuthenticated()) {
-           throw new Error("User is not authenticated");
-        }
+        descriptor.value = function () {
+            if (!currentUser.isAuthenticated()) {
+                throw new Error("User is not authenticated");
+            }
 
-        try {
-            return wrapped.apply(this, arguments);
-        } catch (ex) {
-            throw ex;
+            if (!currentUser.isInRole(role)) {
+                throw new Error(`User is not in the role ${role}`);
+            }
+
+            try {
+                return wrapped.apply(this, arguments);
+            } catch (ex) {
+                throw ex;
+            }
         }
     }
 }
