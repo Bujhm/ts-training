@@ -5,16 +5,28 @@ interface Contact {
 const currentUser = {
     id: 1234,
     roles: ["ContactEditor"],
+    isAuthenticated(): boolean {
+        return true
+    },
     isInRole(role: string): boolean {
         return this.roles.contains(role);
     }
 }
 
 function authorize(target: any, property: string, descriptor: PropertyDescriptor) {
-    //descriptor.value = function () {} // first approach
-    return {
-    // ... make any changes to the descriptor here
-    } as PropertyDescriptor; // second approach
+    const wrapped = descriptor.value; // its important, because it will be called with the original function
+
+    descriptor.value = function () {
+        if (!currentUser.isAuthenticated()) {
+           throw new Error("User is not authenticated");
+        }
+
+        try {
+            return wrapped.apply(this, arguments);
+        } catch (ex) {
+            throw ex;
+        }
+    }
 }
 
 @log
