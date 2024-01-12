@@ -35,7 +35,28 @@ function authorize(role: string) {
     }
 }
 
-@log
+function freeze(constructor: Function) {
+    Object.freeze(constructor);
+    Object.freeze(constructor.prototype);
+}
+
+function singleton(constructor: any) {
+    return class Singleton extends constructor{
+        static _instance = null;
+
+        constructor(...arg) {
+            super(...arg);
+
+            if (Singleton._instance) {
+                throw new Error("Cannot create multiple instances of a singleton");
+            }
+
+            Singleton._instance = this;
+        }
+    }
+}
+
+@freeze
 class ContactRepository {
     private contacts: Contact[] = [];
 
