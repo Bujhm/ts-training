@@ -4,6 +4,10 @@ declare global {
      * @param date Date object
      */
     function formatDate(date: Date): string
+
+    interface Window {
+        MY_VAR: string
+    }
 }
 
 export {}
