@@ -1,37 +1,37 @@
 Walking through this course https://github.com/LinkedInLearning/typescript-EssT-2428199
 
-### Preparing evironment
+### Preparing environment
 
-for Debian like distros (for others substitute apt with your pachkage manager for example yum for CentOS):
- - sudo apt install npm
- - npm install typescript --save-dev
- - sudo apt install node-typescript
+for Debian like distros (for others substitute apt with your package manager for example yum for CentOS):
+ - `sudo apt install npm`
+ - `npm install typescript --save-dev`
+ - `sudo apt install node-typescript`
 
-to be able to use jQuery with the confort and linting it you also need to install @types/jquery:
- - npm i --save-dev @types/jquery
+to be able to use jQuery with the comfort and linting it you also need to install @types/jquery:
+ - `npm i --save-dev @types/jquery`
 
 in the chapter 5 we need to install:
-- npm i reflect-metadata
+- `npm i reflect-metadata`
 
-but before we need to update our nodejs because this functionality starts working at least from v14. The best choice is nvm 
+but before we need to update our nodejs because this functionality starts working at least from v14. The best choice is `nvm` 
 
 https://github.com/nvm-sh/nvm
 
-History (reveresd):
+History (reversed):
 - 0c4d8cb environment preparation, tsconfig.json and ensuring that validation is working properly
 - 373fe3f makes JS be validated (before fix issues)
 - daf95f6 after fixing issues,  but one remains to be fixed in another way )
 - 99ebad6 fixes the last issue with installing the library npm i --save-dev @types/jquery
 - 96700d0 primitives and built in types
-- 2c0d4e7 createing cusom types with interfaces
+- 2c0d4e7 creating custom types with interfaces
 - 734e84b Defining types using type aliases
 - 1b18feb defining enumerable types
 - cede96c typing functions
 - 5d8145e Defining a metatype using generics, use case 1
-- 15b15d4 Defining a metatype using generics, use case 2 - srict generic, different generic type for IN and OUT
+- 15b15d4 Defining a metatype using generics, use case 2 - strict generic, different generic type for IN and OUT
 - 08c1b18 Defining a metatype using generics, use case 3 - matching properties in interfaces
 - d387c46 Defining a metatype using generics, use case 4 - generic typed interfaces
-- 7bb0885 combining multiple types with union types, wartch comments
+- 7bb0885 combining multiple types with union types, watch comments
 - 338a0b0 keyof operator, part 1
 - ba00f0e keyof operator, part 2
 - 1d50236 keyof operator, part 3 - refactoring
